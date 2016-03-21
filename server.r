@@ -14,10 +14,12 @@ shinyServer(function(input, output) {
     DT::datatable(dat[, input$show_vars, drop = FALSE])
   })
   countries <- reactive({unlist(strsplit(input$select_countries, ' '))})
-  output$myGdpPlot <- renderPlot(ggplot(filter(dat, iso2c %in% countries()), aes(year, NY.GDP.PCAP.CD, col = country)) + 
-                                   geom_line() +     
-                                   xlab('Year') + ylab('GDP per capita') + 
-                                   labs(title = "GDP Per Capita (current US$)")
-                                )
+  output$myGdpPlot <- renderPlotly({
+                                    ggplot(filter(dat, iso2c %in% countries()), aes(year, NY.GDP.PCAP.CD, col = country)) + 
+                                    geom_line() +     
+                                    xlab('Year') + ylab('GDP per capita') + 
+                                    labs(title = 'GDP Per Capita (current US$)')
+                      })
+  output$summary <- renderPrint(summary(filter(dat, iso2c %in% countries())))
 
 }) 
