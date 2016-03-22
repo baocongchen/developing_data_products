@@ -11,17 +11,49 @@ mode        : selfcontained # {standalone, draft}
 knit        : slidify::knit2slides
 ---
 
-## Read-And-Delete
+## Features 
+Each year, the World Bank collects data from various sources and publish them on its website. This app
+is an attempt to show the GDP per Capita of a few typical countries. In general, we have 
+1. An interactive chart 
+2. A summary of the GDP per Capita of the data
+3. A data table to inspect each record.
 
-1. Edit YAML front matter
-2. Write using R Markdown
-3. Use an empty line followed by three dashes to separate slides!
+---  
 
---- .class #id 
+## Summary 
+We can use `WDI`, an R package, in this project to get WDI data. Then we summarize it using the `summary` function in R 
+ 
+```{r echo = TRUE}
+library(WDI)
+dat <- WDI(indicator='NY.GDP.PCAP.CD', country=c('US','GB','JP','FR','DE','TH','VN','ID'), start=1980, end=2014)
+summary(dat)
+```
 
-## Slide 2
+---
 
-library(slidify)
-slidify('index.Rmd')
-publish(username='baocongchen', repo='')
+## Chart
+We can also visualize it by using `ggplot2` and `plotly`. The combination of these two library give you an interactive and beautiful chart.
+
+```{r echo = TRUE, cache = FALSE}
+library(plotly)
+library(ggplot2)
+ggplot(data = dat, aes(year, NY.GDP.PCAP.CD, col = country)) + 
+                                    geom_line() +     
+                                    xlab('Year') + ylab('GDP per capita') + 
+                                    labs(title = 'GDP Per Capita (current US$)')
+ggplotly()
+```
+
+---
+
+## Data table
+We can easily make a beautiful data table with `DT` package.
+
+```{r echo = TRUE, cache = FALSE}
+library(DT)
+datatable(data = dat)
+```
+
+
+
 

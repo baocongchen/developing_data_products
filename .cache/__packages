@@ -1,0 +1,14 @@
+base
+methods
+datasets
+utils
+grDevices
+graphics
+stats
+slidify
+shiny
+ggplot2
+RJSONIO
+WDI
+dplyr
+plotly
