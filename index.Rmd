@@ -14,6 +14,7 @@ knit        : slidify::knit2slides
 ## Features 
 Each year, the World Bank collects data from various sources and publish them on its website. This app
 is an attempt to show the GDP per Capita of a few typical countries. In general, we have 
+
 1. An interactive chart 
 2. A summary of the GDP per Capita of the data
 3. A data table to inspect each record.
@@ -25,7 +26,9 @@ We can use `WDI`, an R package, in this project to get WDI data. Then we summari
  
 ```{r echo = TRUE}
 library(WDI)
-dat <- WDI(indicator='NY.GDP.PCAP.CD', country=c('US','GB','JP','FR','DE','TH','VN','ID'), start=1980, end=2014)
+dat <- WDI(indicator='NY.GDP.PCAP.CD', 
+           country=c('US','GB','JP','FR','DE','TH','VN','ID'), 
+           start=1980, end=2014)
 summary(dat)
 ```
 
@@ -34,7 +37,7 @@ summary(dat)
 ## Chart
 We can also visualize it by using `ggplot2` and `plotly`. The combination of these two library give you an interactive and beautiful chart.
 
-```{r echo = TRUE, cache = FALSE}
+```{r echo = TRUE, cache = FALSE, results = 'hide', warning = FALSE}
 library(plotly)
 library(ggplot2)
 ggplot(data = dat, aes(year, NY.GDP.PCAP.CD, col = country)) + 
@@ -49,7 +52,7 @@ ggplotly()
 ## Data table
 We can easily make a beautiful data table with `DT` package.
 
-```{r echo = TRUE, cache = FALSE}
+```{r echo = TRUE, cache = FALSE, results = 'hide'}
 library(DT)
 datatable(data = dat)
 ```
