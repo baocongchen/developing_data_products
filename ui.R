@@ -3,6 +3,7 @@ library(ggplot2)
 library(WDI)
 library(dplyr)
 library(plotly)
+options(warn=-1)
 dat <- WDI(indicator='NY.GDP.PCAP.CD', 
           country=c('US','GB','JP','FR','DE','TH','VN','ID'), 
           start=1980, end=2014)
